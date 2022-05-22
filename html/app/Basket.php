@@ -27,7 +27,14 @@ class Basket {
 	}
 
 	function add(Product $product){
-		$this->basketRepository->addProduct($this->user->id, $product->id);
+
+		$ifProductExists = $this->basketRepository->checkIfProductExists($this->user->id, $product->id);
+
+		if($ifProductExists)
+			throw new \InvalidArgumentException('This product is already added to the basket.');
+
+		return $this->basketRepository->addProduct($this->user->id, $product->id);
+
 	}
 
 	function total(){
