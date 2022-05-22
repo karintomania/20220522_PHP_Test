@@ -16,9 +16,14 @@ class Basket {
 		$this->offerRepository = $offerRepository;
 	}
 
+	// save eligible offers to the user
 	function init($user){
 		$this->user = $user;
+		$eligibleOffers = $this->offerRepository->getEligibleOffers($user);
 
+		foreach($eligibleOffers as $offer){
+			$this->basketRepository->addOffer($this->user->id, $offer->getOfferId());
+		}
 	}
 
 	function add(Product $product){

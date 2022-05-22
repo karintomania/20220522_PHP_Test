@@ -12,7 +12,7 @@ class TwelveMonthsOffer implements Offer{
 		return self::OFFER_ID;
 	}
 
-	public function isEligibleUsers(User $user):bool{
+	public function isEligibleUser(User $user):bool{
 		return (bool) $user->has_12_months_contract;
 	}
 
