@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\{Product, User, UserOffer, UserProduct};
-use App\Offers\{Offer, TwelveMonthsOffer};
+use App\Models\{UserOffer};
+use App\Offers\{TwelveMonthsOffer};
 
 class OfferRepository {
 	private $offers;
