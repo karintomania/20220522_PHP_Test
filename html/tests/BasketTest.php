@@ -69,4 +69,50 @@ class BasketTest extends BaseTest{
 
 	}
 
+	public function testTotalWithDiscount(){
+		$user =	User::find(1);
+
+		$basket = $this::$container->get(Basket::class);
+		$basket->init($user);
+
+		$products = [];
+		$products[] = Product::find(1);
+		$products[] = Product::find(2);
+		$products[] = Product::find(3);
+
+		foreach($products as $product){ $basket->add($product); }
+
+		$total = $basket->total();
+
+		$expectedTotal = collect($products)->reduce(function($total, $product){
+			return $total + $product->price;
+		}, 0); // total of the products
+		$expectedTotal *= 0.9; // discount
+
+		$this->assertEquals($expectedTotal, $total);
+
+	}
+
+	public function testTotalWithoutDiscount(){
+		$user =	User::find(2);
+
+		$basket = $this::$container->get(Basket::class);
+		$basket->init($user);
+
+		$products = [];
+		$products[] = Product::find(1);
+		$products[] = Product::find(2);
+		$products[] = Product::find(3);
+
+		foreach($products as $product){ $basket->add($product); }
+
+		$total = $basket->total();
+
+		$expectedTotal = collect($products)->reduce(function($total, $product){
+			return $total + $product->price;
+		}, 0);
+
+		$this->assertEquals($expectedTotal, $total);
+
+	}
 }
