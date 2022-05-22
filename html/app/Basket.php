@@ -22,7 +22,7 @@ class Basket {
 		$eligibleOffers = $this->offerRepository->getEligibleOffers($user);
 
 		foreach($eligibleOffers as $offer){
-			$this->basketRepository->addOffer($this->user->id, $offer->getOfferId());
+			$this->offerRepository->addOffer($this->user->id, $offer->getOfferId());
 		}
 	}
 
@@ -38,6 +38,10 @@ class Basket {
 	}
 
 	function total(){
+		$totalRawPrice = $this->basketRepository->getTotalPrice($this->user->id);
+		$discount = $this->offerRepository->calcTotalDiscountForUser($this->user->id, $totalRawPrice);
+
+		return $totalRawPrice - $discount;
 	}
 
 

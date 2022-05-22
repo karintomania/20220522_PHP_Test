@@ -3,11 +3,14 @@
 namespace App\Repositories;
 
 use App\Models\{Product, UserProduct, UserOffer};
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 class BasketRepository {
 
-	public function addOffer($userId, $offerId){
-		UserOffer::create(['user_id' => $userId, 'offer_id' => $offerId]);
+	private Capsule $capsule;
+
+	function __construct(Capsule $capsule){
+		$this->capsule = $capsule;
 	}
 
 	public function checkIfProductExists($userId, $productId){
@@ -17,6 +20,15 @@ class BasketRepository {
 			->count();
 		
 		return $existingUserProductsCount > 0;
+	}
+
+	public function getTotalPrice($userId){
+		$total = $this->capsule->connection()->table('user_product')
+			->join('products', 'product_id', '=', 'products.id')
+			->where('user_id', $userId)
+			->sum('price');
+
+		return $total;
 	}
 	
 	public function addProduct($userId, $productId){

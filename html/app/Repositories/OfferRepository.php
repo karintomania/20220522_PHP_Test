@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\{Product, User, UserProduct};
+use App\Models\{Product, User, UserOffer, UserProduct};
 use App\Offers\{Offer, TwelveMonthsOffer};
 
 class OfferRepository {
@@ -28,4 +28,30 @@ class OfferRepository {
 		}
 		return $eligibleOffers;
 	}
+
+	function addOffer($userId, $offerId){
+		UserOffer::create(['user_id' => $userId, 'offer_id' => $offerId]);
+	}
+
+
+	function calcTotalDiscountForUser($userId, $originalPrice){
+
+		$discount = 0;
+		$userOffers = $this->getAddedOffersForUser($userId);
+
+		foreach($userOffers as $userOffer){
+			$offer = $this->offers[$userOffer->offer_id];
+
+			$discount += $offer->calcDiscountAmount($originalPrice);
+		}
+
+		return $discount;
+
+	}
+
+	function getAddedOffersForUser($userId){
+		return UserOffer::select('offer_id')->where('user_id', $userId)->get();
+
+	}
+
 }
