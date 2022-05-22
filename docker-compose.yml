@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  test-app:
+    build:
+      dockerfile: php.Dockerfile
+      context: .
+    container_name: test-app
+    restart: always
+    volumes:
+      - "./html/:/var/www/html/"
+      - "./config/php/xdebug-local.ini:/usr/local/etc/php/conf.d/xdebug-local.ini"
+    ports:
+      - "83:80"
