@@ -13,8 +13,8 @@
         "php-di/php-di": "^6.4"
     },
     "scripts": {
-        "migrate": "php database/migration.php",
-        "seed": "php database/seeder.php",
+        "migrate": "php app/Database/RunMigration.php",
+        "seed": "php app/Database/RunSeeder.php",
         "test": "./vendor/bin/phpunit tests"
     }
 }
