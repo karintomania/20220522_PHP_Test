@@ -3,11 +3,11 @@
 namespace Tests;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
-use App\Repositories\BasketRepository;
+use App\Repositories\ProductRepository;
 use App\Models\{Product,UserProduct};
 use App\Database\{Migration, Seeder};
 
-class BasketRepositoryTest extends BaseTest{
+class ProductRepositoryTest extends BaseTest{
 
 	private Capsule $capsule;
 
@@ -26,9 +26,9 @@ class BasketRepositoryTest extends BaseTest{
 		$productId = 1;
 		UserProduct::create(['user_id'=>$userId, 'product_id'=>$productId]);
 
-		$basketRepository = $this::$container->get(BasketRepository::class);
+		$ProductRepository = $this::$container->get(ProductRepository::class);
 
-		$productExists = $basketRepository->checkIfProductExists($userId, $productId);
+		$productExists = $ProductRepository->checkIfProductExists($userId, $productId);
 
 		$this->assertTrue($productExists);
 		
@@ -39,9 +39,9 @@ class BasketRepositoryTest extends BaseTest{
 		$userId = 1;
 		$productId = 1;
 
-		$basketRepository = $this::$container->get(BasketRepository::class);
+		$ProductRepository = $this::$container->get(ProductRepository::class);
 
-		$productExists = $basketRepository->checkIfProductExists($userId, $productId);
+		$productExists = $ProductRepository->checkIfProductExists($userId, $productId);
 
 		$this->assertFalse($productExists);
 	}
@@ -64,8 +64,8 @@ class BasketRepositoryTest extends BaseTest{
 
 		 }
 
-		$basketRepository = $this::$container->get(BasketRepository::class);
-		$total = $basketRepository->getTotalPrice($userId);
+		$ProductRepository = $this::$container->get(ProductRepository::class);
+		$total = $ProductRepository->getTotalPrice($userId);
 
 		$this->assertEquals($expectedTotal, $total);
 

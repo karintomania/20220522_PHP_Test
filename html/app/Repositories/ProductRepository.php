@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\{Product, UserProduct, UserOffer};
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-class BasketRepository {
+class ProductRepository {
 
 	private Capsule $capsule;
 
