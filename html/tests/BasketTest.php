@@ -20,20 +20,19 @@ class BasketTest extends BaseTest{
 
 	}
 
-	public function testInitSuccess(){
+	public function testInitSavesEligibleOffers(){
 		$user =	User::find(1);
 
 		$basket = $this::$container->get(Basket::class);
 		$basket->init($user);
 
+		// get the saved offers for the user
 		$userOffers = UserOffer::where('user_id', $user->id)
-			->where('offer_id', 0)
 			->get();
 
 		$this->assertEquals(1, count($userOffers));
 		$userOffer = $userOffers[0];
 		$this->assertEquals(1, $userOffer->user_id);
 		$this->assertEquals(0, $userOffer->offer_id);
-
 	}
 }
